@@ -4,21 +4,25 @@ import cors from 'cors'
 
 const app: Express = express()
 
-// Middleware
-
+// Core middleware
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
 app.use(
     cors({
-        origin: [config.FRONTEND_URL],
+        origin: config.FRONTEND_URL,
         methods: ['GET', 'POST', 'PUT', 'DELETE'],
         credentials: true
     })
 )
 
-// Routes
-app.get('/', (req: Request, res: Response) => {
+// Basic routes
+app.get('/', (_req: Request, res: Response) => {
     res.send('User Management System API is running')
+})
+
+app.get('/health', (_req: Request, res: Response) => {
+    res.status(200).send('OK')
 })
 
 export default app

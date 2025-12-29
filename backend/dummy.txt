@@ -1,0 +1,45 @@
+backend/
+│
+├── src/
+│   ├── config/
+│   │   ├── db.js                # MongoDB connection
+│   │   └── env.js               # env validation & config
+│   │
+│   ├── modules/
+│   │   ├── auth/
+│   │   │   ├── auth.controller.js
+│   │   │   ├── auth.routes.js
+│   │   │   ├── auth.service.js
+│   │   │   └── auth.schema.js   # validation schemas
+│   │   │
+│   │   ├── users/
+│   │   │   ├── user.controller.js
+│   │   │   ├── user.routes.js
+│   │   │   ├── user.service.js
+│   │   │   └── user.schema.js
+│   │
+│   ├── middlewares/
+│   │   ├── auth.middleware.js   # JWT verification
+│   │   ├── role.middleware.js   # RBAC
+│   │   └── error.middleware.js  # global error handler
+│   │
+│   ├── models/
+│   │   └── user.model.js
+│   │
+│   ├── utils/
+│   │   ├── jwt.js               # token helpers
+│   │   ├── password.js          # bcrypt helpers
+│   │   └── response.js          # consistent API responses
+│   │
+│   ├── routes.js                # route aggregation
+│   ├── app.js                   # express app setup
+│   └── server.js                # app startup
+│
+├── tests/
+│   ├── auth.test.js
+│   ├── users.test.js
+│
+├── .env.example
+├── .gitignore
+├── package.json
+└── README.md

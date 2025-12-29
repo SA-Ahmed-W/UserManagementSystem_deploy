@@ -3,6 +3,10 @@ import app from "./app.js";
 import env from "./config/env.js";
 import {connectDB} from "./config/db.js";
 
+/**
+ * Starts the server by connecting to the database and listening on a port.
+ * If any errors occur during the process, they are logged to the console and the process is exited with a status code of 1.
+ */
 async function startServer() {
     try {
         // Connect to the database
