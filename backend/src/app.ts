@@ -1,7 +1,7 @@
 import express, { type Request, type Response, type Express } from 'express'
 import cors from 'cors'
 import helmet from 'helmet'
-
+import cookieParser from 'cookie-parser'
 
 import { loadEnv } from './config/env.js'
 import routes from './routes.js'
@@ -15,6 +15,10 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(helmet())
 
+// cookie parser
+app.use(cookieParser())
+
+// CORS
 app.use(
     cors({
         origin: env.FRONTEND_URL,

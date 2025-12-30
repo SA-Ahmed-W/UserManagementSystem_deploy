@@ -3,16 +3,15 @@ import { verifyToken } from '../utils/jwt.js'
 import User from '../models/user.model.js'
 
 export const authenticate = async (req: Request, res: Response, next: NextFunction) => {
+    let token: string | undefined
+
     const authHeader = req.headers.authorization
 
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        return res.status(401).json({
-            success: false,
-            message: 'Authentication token missing'
-        })
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+        token = authHeader.split(' ')[1]
+    } else if (req.cookies?.auth_token) {
+        token = req.cookies.auth_token
     }
-
-    const token = authHeader.split(' ')[1]
 
     if (!token) {
         return res.status(401).json({

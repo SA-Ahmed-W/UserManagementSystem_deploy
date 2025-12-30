@@ -9,7 +9,6 @@
         "build": "tsc",
         "start": "node dist/server.js",
         "test": "cross-env NODE_ENV=test node --experimental-vm-modules node_modules/jest/bin/jest.js --runInBand"
-
     },
     "keywords": [],
     "author": "",
@@ -17,6 +16,7 @@
     "packageManager": "pnpm@10.23.0",
     "dependencies": {
         "bcrypt": "^6.0.0",
+        "cookie-parser": "^1.4.7",
         "cors": "^2.8.5",
         "dotenv": "^17.2.3",
         "express": "^5.2.1",
@@ -27,6 +27,7 @@
     },
     "devDependencies": {
         "@types/bcrypt": "^6.0.0",
+        "@types/cookie-parser": "^1.4.10",
         "@types/cors": "^2.8.19",
         "@types/express": "^5.0.6",
         "@types/jest": "^30.0.0",

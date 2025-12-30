@@ -40,6 +40,12 @@ export const login = async (req: Request, res: Response) => {
 
     const { user, token } = await loginUser(email, password)
 
+    res.cookie('auth_token', token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'strict',
+        maxAge: 60 * 60 * 1000 // 1 hour
+    })
     return sendSuccess(res, 'Login successful', {
         id: user.id,
         fullName: user.fullName,
@@ -47,4 +53,13 @@ export const login = async (req: Request, res: Response) => {
         role: user.role,
         token
     })
+}
+
+export const logout = async (_req: Request, res: Response) => {
+    res.clearCookie('auth_token', {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'strict'
+    })
+    return sendSuccess(res, 'Logout successful')
 }
