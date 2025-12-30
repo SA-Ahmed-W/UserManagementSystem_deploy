@@ -21,13 +21,14 @@ export const signupUser = async (fullName: string, email: string, password: stri
         role: isFirstUser ? 'admin' : 'user'
     })
 
-    const token = signToken({
-        userId: user.id,
-        email,
-        role: user.role
-    })
+    // const token = signToken({
+    //     userId: user.id,
+    //     email,
+    //     role: user.role
+    // })
 
-    return { user, token }
+    // return { user, token }
+    return { user }
 }
 
 export const loginUser = async (email: string, password: string) => {

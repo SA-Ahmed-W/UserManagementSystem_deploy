@@ -1,14 +1,31 @@
+# ---------- build stage ----------
+FROM node:22-alpine AS builder
+
+WORKDIR /app
+
+RUN corepack enable
+
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install
+
+COPY . .
+RUN pnpm run build
+
+
+# ---------- runtime stage ----------
 FROM node:22-alpine
 
 WORKDIR /app
 
-COPY package*.json ./
-RUN npm i --omit=dev
+RUN corepack enable
 
-COPY . .
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --prod
+
+COPY --from=builder /app/dist ./dist
 
 RUN chown -R node:node /app
 USER node
 
 EXPOSE 3000
-CMD ["npm", "run", "start"]
+CMD ["pnpm", "run", "start"]

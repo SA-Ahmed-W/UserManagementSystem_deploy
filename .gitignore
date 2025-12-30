@@ -6,6 +6,8 @@ backend/.env
 backend/.env.test
 frontend/.env
 
+backend/docker_run.txt
+
 # Ignore dist files
 backend/dist/
 frontend/dist/

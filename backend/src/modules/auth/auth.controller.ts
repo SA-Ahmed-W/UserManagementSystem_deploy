@@ -9,7 +9,8 @@ export const signup = async (req: Request, res: Response) => {
     try {
         const { fullName, email, password } = signupSchema.parse(req.body)
 
-        const { user, token } = await signupUser(fullName, email, password)
+        // const { user, token } = await signupUser(fullName, email, password)
+        const { user } = await signupUser(fullName, email, password)
 
         return sendSuccess(
             res,
@@ -18,8 +19,8 @@ export const signup = async (req: Request, res: Response) => {
                 id: user.id,
                 fullName: user.fullName,
                 email: user.email,
-                role: user.role,
-                token
+                role: user.role
+                // token
             },
             201
         )
