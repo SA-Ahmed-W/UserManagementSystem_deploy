@@ -9,29 +9,50 @@ jest.setTimeout(20000)
 let adminToken
 let userToken
 let userId
+let adminId
+let createdUserEmail
+let createdAdminEmail
 
 beforeAll(async () => {
     await connectTestDB()
+})
+
+beforeEach(async () => {
     await User.deleteMany({})
 
-    const admin = await request(app).post('/api/auth/signup').send({
+    createdAdminEmail = `admin_${Date.now()}@test.com`
+    createdUserEmail = `user_${Date.now()}@test.com`
+
+    const adminResSignup = await request(app).post('/api/auth/signup').send({
         fullName: 'Admin',
-        email: 'user.admin@test.com',
+        email: createdAdminEmail,
+        password: 'Password123'
+    })
+    const adminResLogin = await request(app).post('/api/auth/login').send({
+        fullName: 'Admin',
+        email: createdAdminEmail,
         password: 'Password123'
     })
 
-    adminToken = admin.body.data.token
+    adminToken = adminResLogin.body.data.token
+    adminId = adminResLogin.body.data.id
 
-    const user = await request(app).post('/api/auth/signup').send({
+    const userResSignup = await request(app).post('/api/auth/signup').send({
         fullName: 'User',
-        email: 'user.user@test.com',
+        email: createdUserEmail,
         password: 'Password123'
     })
 
-    userToken = user.body.data.token
+    const userResLogin = await request(app).post('/api/auth/login').send({
+        fullName: 'User',
+        email: createdUserEmail,
+        password: 'Password123'
+    })
 
-    const u = await User.findOne({ email: 'user.user@test.com' })
-    userId = u.id
+    userToken = userResLogin.body.data.token
+
+    // const user = await User.findOne({ email: userResLogin.body.data.email })
+    userId = userResLogin.body.data.id
 })
 
 afterAll(async () => {
@@ -48,17 +69,29 @@ describe('Users Module', () => {
         const res = await request(app).get('/api/users/me').set('Authorization', `Bearer ${userToken}`)
 
         expect(res.status).toBe(200)
+        expect(res.body.data.email).toBe(createdUserEmail)
     })
 
     test('admin can list users', async () => {
         const res = await request(app).get('/api/users').set('Authorization', `Bearer ${adminToken}`)
 
         expect(res.status).toBe(200)
+        expect(res.body.data.users.length).toBeGreaterThanOrEqual(2)
     })
 
-    test('admin can deactivate user', async () => {
+    test('admin can deactivate a normal user', async () => {
         const res = await request(app).put(`/api/users/${userId}/deactivate`).set('Authorization', `Bearer ${adminToken}`)
 
         expect(res.status).toBe(200)
+
+        const updatedUser = await User.findById(userId)
+        expect(updatedUser.status).toBe('inactive')
+    })
+
+    test('cannot deactivate last remaining admin', async () => {
+        const res = await request(app).put(`/api/users/${adminId}/deactivate`).set('Authorization', `Bearer ${adminToken}`)
+
+        expect(res.status).toBe(400)
+        expect(res.body.message).toMatch(/at least one admin/i)
     })
 })

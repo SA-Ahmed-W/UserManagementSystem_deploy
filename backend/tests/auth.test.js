@@ -8,6 +8,9 @@ jest.setTimeout(20000)
 
 beforeAll(async () => {
     await connectTestDB()
+})
+
+beforeEach(async () => {
     await User.deleteMany({})
 })
 
@@ -28,6 +31,12 @@ describe('Auth Module', () => {
     })
 
     test('second user becomes normal user', async () => {
+        await request(app).post('/api/auth/signup').send({
+            fullName: 'Admin User',
+            email: 'auth.admin@test.com',
+            password: 'Password123'
+        })
+
         const res = await request(app).post('/api/auth/signup').send({
             fullName: 'Normal User',
             email: 'auth.user@test.com',

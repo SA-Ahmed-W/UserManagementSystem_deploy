@@ -58,9 +58,14 @@ export const activateUser = async (req: Request, res: Response) => {
 
 export const deactivateUser = async (req: Request, res: Response) => {
     const id = req.params.id
-    if (typeof id === 'undefined') {
+    if (!id) {
         return res.status(400).json({ success: false, message: 'ID is required' })
     }
-    await setUserStatus(id, 'inactive')
-    return sendSuccess(res, 'User deactivated')
+
+    try {
+        await setUserStatus(id, 'inactive')
+        return sendSuccess(res, 'User deactivated')
+    } catch (err) {
+        return sendError(res, (err as Error).message, 400)
+    }
 }

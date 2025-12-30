@@ -1,7 +1,8 @@
 import type { Request, Response, NextFunction } from 'express'
 import { verifyToken } from '../utils/jwt.js'
+import User from '../models/user.model.js'
 
-export const authenticate = (req: Request, res: Response, next: NextFunction) => {
+export const authenticate = async (req: Request, res: Response, next: NextFunction) => {
     const authHeader = req.headers.authorization
 
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -22,6 +23,15 @@ export const authenticate = (req: Request, res: Response, next: NextFunction) =>
 
     try {
         const decoded = verifyToken(token)
+        const user = await User.findById(decoded.userId)
+
+        if (!user || user.status !== 'active') {
+            return res.status(401).json({
+                success: false,
+                message: 'User inactive or not found'
+            })
+        }
+
         req.user = decoded
         next()
     } catch {

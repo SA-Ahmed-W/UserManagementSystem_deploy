@@ -5,28 +5,16 @@ export const getUserById = async (userId: string) => {
     return User.findById(userId)
 }
 
-export const updateUserProfile = async (
-    userId: string,
-    fullName: string,
-    email: string
-) => {
+export const updateUserProfile = async (userId: string, fullName: string, email: string) => {
     const existing = await User.findOne({ email, _id: { $ne: userId } })
     if (existing) {
         throw new Error('Email already in use')
     }
 
-    return User.findByIdAndUpdate(
-        userId,
-        { fullName, email },
-        { new: true }
-    )
+    return User.findByIdAndUpdate(userId, { fullName, email }, { new: true })
 }
 
-export const changeUserPassword = async (
-    userId: string,
-    currentPassword: string,
-    newPassword: string
-) => {
+export const changeUserPassword = async (userId: string, currentPassword: string, newPassword: string) => {
     const user = await User.findById(userId).select('+password')
 
     if (!user) {
@@ -45,10 +33,7 @@ export const changeUserPassword = async (
 export const listUsers = async (page: number, limit: number) => {
     const skip = (page - 1) * limit
 
-    const [users, total] = await Promise.all([
-        User.find().skip(skip).limit(limit),
-        User.countDocuments()
-    ])
+    const [users, total] = await Promise.all([User.find().skip(skip).limit(limit), User.countDocuments()])
 
     return {
         users,
@@ -63,7 +48,20 @@ export const setUserStatus = async (userId: string, status: 'active' | 'inactive
     if (!user) {
         throw new Error('User not found')
     }
+    // Only apply special rules when deactivating admins
+    if (status === 'inactive' && user.role === 'admin') {
+        const activeAdminCount = await User.countDocuments({
+            role: 'admin',
+            status: 'active'
+        })
+
+        // If this admin is the last one, block the operation
+        if (activeAdminCount <= 1) {
+            throw new Error('At least one admin must remain active')
+        }
+    }
 
     user.status = status
     await user.save()
+    // return user
 }
