@@ -3,4 +3,9 @@ node_modules/
 
 # Ignore env files
 backend/.env
+backend/.env.test
 frontend/.env
+
+# Ignore dist files
+backend/dist/
+frontend/dist/

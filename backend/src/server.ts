@@ -1,6 +1,7 @@
 import app from './app.js'
 import { loadEnv } from './config/env.js'
 import { connectDB } from './config/db.js'
+import mongoose from 'mongoose'
 
 async function startServer() {
     try {
@@ -13,6 +14,7 @@ async function startServer() {
         })
     } catch (error) {
         console.error(error)
+        mongoose.connection.close()
         process.exit(1)
     }
 }
