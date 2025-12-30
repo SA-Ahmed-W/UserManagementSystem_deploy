@@ -1,0 +1,19 @@
+@import 'tailwindcss';
+
+#root {
+    @apply h-screen;
+    @apply flex;
+    @apply items-center;
+    @apply justify-center;
+
+    background: linear-gradient(135deg, #06f566 0%, #0f172a 100%);
+}
+
+.glowing-text {
+    @apply text-white text-6xl font-bold;
+
+    text-shadow:
+        0 0 8px #dff838,
+        0 0 16px #0ee92f,
+        0 0 32px #0ea5e9;
+}

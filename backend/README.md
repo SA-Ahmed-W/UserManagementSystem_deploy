@@ -221,14 +221,15 @@ pnpm test
 
 The backend is fully dockerized.
 
+Move to Backend
+` cd ./backend`
+
 Build Image
-`docker build -t user-management-backend .`
+`docker build -t ums_backend .`
 
-Run Container
-
-```
-docker run -d --name ums_backend -p 3000:3000 -e PORT=3000 -e JWT_SECRET=019b6b4c-fc18-77b7-83b1-f79301446c6b -e JWT_EXPIRES_IN=1h -e FRONTEND_URL=http://localhost:5173 -e MONGO_DB_HOST_URI="mongodb+srv://aasimahmed_ums_db_user:svw6juWkfPtB7utR@ums.afqy2dz.mongodb.net/ums?appName=UMS" ums_backend
-```
+Run Container (replace `<To your Creadentials>`)
+`docker run -d --name ums_backend -p 3000:3000 -e PORT=3000 -e JWT_SECRET=<your secret> -e JWT_EXPIRES_IN=1h -e FRONTEND_URL=<frontend url> -e MONGO_DB_HOST_URI="<mongodb uri>" ums_backend
+`
 
 The container runs the compiled production build.
 
