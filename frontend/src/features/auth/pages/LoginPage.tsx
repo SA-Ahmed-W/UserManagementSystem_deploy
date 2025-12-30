@@ -29,7 +29,7 @@ export default function LoginPage() {
             email: '',
             password: ''
         })
-        toast.success('Login successful')
+        // toast.success('Login successful')
         navigate('/me', { replace: true })
     }
 

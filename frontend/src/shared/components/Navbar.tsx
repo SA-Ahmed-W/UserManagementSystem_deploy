@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useAuthSession } from '@features/auth/hooks/useAuthSession'
 import { toast } from 'react-toastify'
 import { useAuth } from '@features/auth/hooks/useAuth'
+import { NavLink } from 'react-router-dom'
 
 export default function Navbar() {
     const { user, refresh } = useAuthSession()
@@ -28,30 +29,30 @@ export default function Navbar() {
 
                     {/* Navigation Links */}
                     <div className="flex items-center gap-6">
-                        <Link
+                        {/* <NavLink
                             to="/"
-                            className="text-white hover:text-gray-300 transition-colors font-medium">
+                            className="text-white hover:text-gray-300 hover:border-b transition-colors font-medium">
                             Home
-                        </Link>
+                        </NavLink> */}
 
                         {user && user?.role === 'admin' && (
-                            <Link
+                            <NavLink
                                 to="/users"
-                                className="text-white hover:text-gray-300 transition-colors font-medium">
+                                className="text-white hover:text-gray-300 hover:border-b transition-colors font-medium">
                                 Users
-                            </Link>
+                            </NavLink>
                         )}
 
                         {user && (
                             <>
-                                <Link
+                                <NavLink
                                     to="/me"
-                                    className="text-white hover:text-gray-300 transition-colors font-medium">
+                                    className="text-white hover:text-gray-300 hover:border-b transition-colors font-medium">
                                     My Profile
-                                </Link>
+                                </NavLink>
                                 <button
                                     onClick={handleLogout}
-                                    className="px-4 py-2 bg-white/20 hover:bg-white/30 text-white font-medium rounded-lg backdrop-blur-sm border border-white/30 transition-all duration-200">
+                                    className="px-4 py-2 bg-red-600/20 hover:bg-red-500/30 text-white font-medium rounded-lg backdrop-blur-sm border border-white/30 transition-all duration-200">
                                     Logout
                                 </button>
                             </>

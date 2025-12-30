@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useAuthSession } from '@features/auth/hooks/useAuthSession'
 import { toast } from 'react-toastify'
-import { authApi } from '@features/users/services/auth.api'
+import { authApi } from '@features/users/services/profile.api'
 import { changePasswordSchema, updateProfileSchema } from '../schemas/me.schema'
 
 export default function Me() {

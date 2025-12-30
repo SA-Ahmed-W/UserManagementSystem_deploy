@@ -11,7 +11,8 @@ export default function SignupPage() {
     const [form, setForm] = useState({
         fullName: '',
         email: '',
-        password: ''
+        password: '',
+        confirmPassword: ''
     })
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -29,9 +30,10 @@ export default function SignupPage() {
         setForm({
             fullName: '',
             email: '',
-            password: ''
+            password: '',
+            confirmPassword: ''
         })
-        toast.success('Signup successful')
+        // toast.success('Signup successful')
         navigate('/login', { replace: true })
     }
 
@@ -70,6 +72,12 @@ export default function SignupPage() {
                         placeholder="Password"
                         className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent backdrop-blur-sm transition-all"
                         onChange={(e) => setForm({ ...form, password: e.target.value })}
+                    />
+                    <input
+                        type="password"
+                        placeholder="Confirm Password"
+                        className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent backdrop-blur-sm transition-all"
+                        onChange={(e) => setForm({ ...form, confirmPassword: e.target.value })}
                     />
 
                     {/* Submit button */}
