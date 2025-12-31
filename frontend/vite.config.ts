@@ -9,10 +9,11 @@ interface AppEnv {
     PORT: string
     BACKEND_PROXY: string
     VITE_ENV: TMode
+    VITE_BACKEND_API: string
 }
 
 const validateEnv = (envMode: TMode, env: Partial<AppEnv>) => {
-    const commonVars: (keyof AppEnv)[] = ['VITE_ENV']
+    const commonVars: (keyof AppEnv)[] = ['VITE_ENV', 'VITE_BACKEND_API']
     const devOnlyVars: (keyof AppEnv)[] = ['PORT', 'BACKEND_PROXY']
 
     const requiredVars = envMode === 'development' ? [...commonVars, ...devOnlyVars] : commonVars
@@ -38,25 +39,17 @@ export default defineConfig(({ mode }) => {
 
     validateEnv(envMode, env)
 
-    // const server: ServerOptions | undefined =
-        //envMode === 'development'
-           // ? {
-             //     port: normalizePort(env.PORT!),
-            //      open: true,
-             //     proxy: {
-                //      '/api': {
-                   //       target: env.BACKEND_PROXY!,
-                     //     changeOrigin: true,
-                   //       rewrite: (path) => path.replace(/^\/api/, '')
-                  //    }
-               //   }
-            //  }
-          //  : undefined
+    const server: ServerOptions | undefined =
+        envMode === 'development'
+            ? {
+                  port: normalizePort(env.PORT!)
+              }
+            : undefined
 
     return {
         plugins: [react(), tailwindcss()],
-      //  server,
-      //  preview: server,
+        server,
+        preview: server,
         build: {
             minify: true
         },

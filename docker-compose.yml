@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  backend:
+    container_name: ums_backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+    env_file:
+      - ./backend/.env.docker
+    restart: no
+
+  frontend:
+    container_name: ums_frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_BACKEND_API: http://localhost:3000/api
+    ports:
+      - "8000:80"
+    depends_on:
+      - backend
+    restart: no

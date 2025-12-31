@@ -3,6 +3,7 @@ import { loginSchema } from '../schemas/auth.schema'
 import { useAuth } from '../hooks/useAuth'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 export default function LoginPage() {
     const navigate = useNavigate()
@@ -73,11 +74,11 @@ export default function LoginPage() {
                 </form>
                 <div className="text-center mt-4 text-gray-400">
                     Don't have an account?{' '}
-                    <a
-                        href="/signup"
+                    <Link
+                        to="/signup"
                         className="text-white underline hover:text-gray-200">
                         Signup
-                    </a>
+                    </Link>
                 </div>
             </div>
         </div>

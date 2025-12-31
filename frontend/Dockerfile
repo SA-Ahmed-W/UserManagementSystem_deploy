@@ -12,11 +12,16 @@ COPY package.json pnpm-lock.yaml ./
 # Install dependencies
 RUN pnpm install --frozen-lockfile
 
-# Copy environment variables
-COPY .env.production .env.production
+# # Copy environment variables
+# COPY .env.production .env.production
 
 # Copy source code
 COPY . .
+
+# Set build arguments
+ARG VITE_BACKEND_API
+ENV VITE_BACKEND_API=$VITE_BACKEND_API
+
 
 # Build app
 RUN pnpm build

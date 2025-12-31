@@ -4,11 +4,13 @@ node_modules/
 # Ignore env files
 backend/.env
 backend/.env.test
+backend/.env.docker
 frontend/.env
 frontend/.env.production
 
 backend/docker_run.txt
 frontend/docker_run.txt
+docker_run.txt
 
 # Ignore dist files
 backend/dist/

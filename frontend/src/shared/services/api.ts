@@ -1,7 +1,7 @@
 import axios from 'axios'
-let baseUrl = import.meta.env.VITE_BACKEND_API
+
 export const api = axios.create({
-    baseURL: baseUrl,
+    baseURL: import.meta.env.VITE_BACKEND_API,
     withCredentials: true,
     timeout: 10000,
     headers: {
