@@ -43,7 +43,7 @@ export const login = async (req: Request, res: Response) => {
     res.cookie('auth_token', token, {
         httpOnly: true,
         secure: true,
-        sameSite: 'strict',
+        sameSite: 'none',
         maxAge: 60 * 60 * 1000 // 1 hour
     })
     return sendSuccess(res, 'Login successful', {
