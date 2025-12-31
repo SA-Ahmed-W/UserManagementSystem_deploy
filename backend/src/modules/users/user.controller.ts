@@ -52,6 +52,12 @@ export const activateUser = async (req: Request, res: Response) => {
     if (typeof id === 'undefined') {
         return res.status(400).json({ success: false, message: 'ID is required' })
     }
+
+    const user = await getUserById(id)
+    if (!user || user.status === 'active') {
+        return res.status(400).json({ success: false, message: 'User is already active' })
+    }
+
     await setUserStatus(id, 'active')
     return sendSuccess(res, 'User activated')
 }
@@ -60,6 +66,11 @@ export const deactivateUser = async (req: Request, res: Response) => {
     const id = req.params.id
     if (!id) {
         return res.status(400).json({ success: false, message: 'ID is required' })
+    }
+
+    const user = await getUserById(id)
+    if (!user || user.status === 'inactive') {
+        return res.status(400).json({ success: false, message: 'User is already inactive' })
     }
 
     try {
