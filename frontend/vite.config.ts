@@ -38,25 +38,25 @@ export default defineConfig(({ mode }) => {
 
     validateEnv(envMode, env)
 
-    const server: ServerOptions | undefined =
-        envMode === 'development'
-            ? {
-                  port: normalizePort(env.PORT!),
-                  open: true,
-                  proxy: {
-                      '/api': {
-                          target: env.BACKEND_PROXY!,
-                          changeOrigin: true,
-                          rewrite: (path) => path.replace(/^\/api/, '')
-                      }
-                  }
-              }
-            : undefined
+    // const server: ServerOptions | undefined =
+        //envMode === 'development'
+           // ? {
+             //     port: normalizePort(env.PORT!),
+            //      open: true,
+             //     proxy: {
+                //      '/api': {
+                   //       target: env.BACKEND_PROXY!,
+                     //     changeOrigin: true,
+                   //       rewrite: (path) => path.replace(/^\/api/, '')
+                  //    }
+               //   }
+            //  }
+          //  : undefined
 
     return {
         plugins: [react(), tailwindcss()],
-        server,
-        preview: server,
+      //  server,
+      //  preview: server,
         build: {
             minify: true
         },
